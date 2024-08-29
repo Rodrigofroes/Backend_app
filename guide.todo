@@ -1,0 +1,26 @@
+Confirações e dependências:
+- [x] TypeScript
+- [ ] Express
+- [ ] Prisma
+- [ ] PostgresSQL
+- [ ] JWT 
+
+Desenvolvimento utilizando SOLID + Clean Architecture: 
+- [x] Domain
+- [x] infra 
+- [x] usecases
+
+Divisão das tabelas: 
+-- Gabriel --
+- [x] Usuários 
+- [ ] Tipo de Receita
+- [ ] Conta a Receber
+- [ ] Crédito
+- [ ] Movimentar Caixa
+
+-- Rodrigo -- 
+- [ ] Tipo de Despesa
+- [ ] Conta a Pagar
+- [ ] Debíto
+- [ ] Forma Pagamento
+- [ ] Fluxo de Caixa
