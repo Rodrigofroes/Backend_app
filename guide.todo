@@ -2,7 +2,7 @@ Confirações e dependências:
 - [x] TypeScript
 - [ ] Express
 - [ ] Prisma
-- [ ] PostgresSQL
+- [x] PostgresSQL
 - [ ] JWT 
 
 Desenvolvimento utilizando SOLID + Clean Architecture: 
