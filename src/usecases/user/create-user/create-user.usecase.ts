@@ -1,6 +1,6 @@
 import { User } from "../../../domain/user/entity/user.entity";
 import { UserGataway } from "../../../domain/user/gateway/user.gateway";
-import { Usecase } from "../../usercase"
+import { Usecase } from "../../usecase"
 
 // Para ciiar um novo usuário, é necessário informar o nome, email e senha
 export type CreateUserInputDto = {
@@ -22,13 +22,33 @@ export class CreateUserUsecase implements Usecase<CreateUserInputDto, CreateUser
     }
 
     public async execute({nome, email, senha}: CreateUserInputDto): Promise<CreateUserOutputDto>{
+        this.validateUser({nome, email, senha});
+        const aEmail = await this.userGateway.findByEmail(email);
+
+        if (aEmail) {
+            throw new Error('Email já cadastrado');
+        }
+
         const aUser = User.create(nome, email, senha);
+
         await this.userGateway.save(aUser);
-    
+        
         const output: CreateUserOutputDto = {
             id: aUser.id
         }
     
         return output;
+    }
+
+    public validateUser(user: CreateUserInputDto) {
+        if (!user.nome) {
+            throw new Error('Nome é obrigatório');
+        }
+        if (!user.email) {
+            throw new Error('Email é obrigatório');
+        }
+        if (!user.senha) {
+            throw new Error('Senha é obrigatório');
+        }
     }
 }
