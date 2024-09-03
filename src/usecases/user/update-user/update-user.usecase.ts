@@ -1,4 +1,4 @@
-import { UserGataway } from "../../../domain/user/gateway/user.gateway";
+import { UserGateway } from "../../../domain/user/gateway/user.gateway";
 import { Usecase } from "../../usecase";
 import { User } from "../../../domain/user/entity/user.entity";
 
@@ -14,9 +14,9 @@ export type UpdateUserOutputDto = {
 }
 
 export class UpdateUserUsecase implements Usecase<UpdateUserInputDto, UpdateUserOutputDto> {
-    private constructor(private readonly useGateway: UserGataway) { }
+    private constructor(private readonly useGateway: UserGateway) { }
 
-    public static create(useGateway: UserGataway) {
+    public static create(useGateway: UserGateway) {
         return new UpdateUserUsecase(useGateway);
     }
 

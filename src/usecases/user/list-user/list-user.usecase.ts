@@ -1,4 +1,4 @@
-import { UserGataway } from "../../../domain/user/gateway/user.gateway";
+import { UserGateway } from "../../../domain/user/gateway/user.gateway";
 import { Usecase } from "../../usecase";
 
 export type ListUserInputDto = void;
@@ -12,9 +12,9 @@ export type ListUserOutputDtpo = {
 }
 
 export class ListUserUsecase implements Usecase<ListUserInputDto, ListUserOutputDtpo>{
-    private constructor(private readonly useGateway: UserGataway){}
+    private constructor(private readonly useGateway: UserGateway){}
 
-    public static create(userGateway: UserGataway){
+    public static create(userGateway: UserGateway){
         return new ListUserUsecase(userGateway);
     }
 

@@ -7,8 +7,8 @@ export type UserProps = {
 
 export class User {
     private constructor(private props: UserProps) {
-        this.validateEmail();
-        this.validateSenha();
+        // this.validateEmail();
+        // this.validateSenha();
     }
 
     public static create(nome: string, email: string, senha: string) {

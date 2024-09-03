@@ -1,4 +1,4 @@
-import { UserGataway } from "../../../domain/user/gateway/user.gateway";
+import { UserGateway } from "../../../domain/user/gateway/user.gateway";
 import { Usecase } from "../../usecase";
 
 export type FindByIdInputDto = {
@@ -12,9 +12,9 @@ export type FindByIdOutputDto = {
 }
 
 export class FindByIdUsercase implements Usecase<FindByIdInputDto, FindByIdOutputDto>{
-    constructor(private readonly userGateway: UserGataway){}
+    private constructor(private readonly userGateway: UserGateway){}
 
-    public static create(userGateway: UserGataway){
+    public static create(userGateway: UserGateway){
         return new FindByIdUsercase(userGateway);
     }
 

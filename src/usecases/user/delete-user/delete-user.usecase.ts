@@ -1,4 +1,4 @@
-import { UserGataway } from "../../../domain/user/gateway/user.gateway";
+import { UserGateway } from "../../../domain/user/gateway/user.gateway";
 import { Usecase } from "../../usecase";
 
 export type DeleteUserInputDto = {
@@ -8,9 +8,9 @@ export type DeleteUserInputDto = {
 export type DeleteUserOutputDto = void;
 
 export class DeleteUserUsercase implements Usecase<DeleteUserInputDto, DeleteUserOutputDto>{
-    constructor(private readonly useGateway: UserGataway){}
+    private constructor(private readonly useGateway: UserGateway){}
 
-    public static create(userGateway: UserGataway){
+    public static create(userGateway: UserGateway){
         return new DeleteUserUsercase(userGateway);
     }
 

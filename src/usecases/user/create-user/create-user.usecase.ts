@@ -1,5 +1,5 @@
 import { User } from "../../../domain/user/entity/user.entity";
-import { UserGataway } from "../../../domain/user/gateway/user.gateway";
+import { UserGateway } from "../../../domain/user/gateway/user.gateway";
 import { Usecase } from "../../usecase"
 
 // Para ciiar um novo usuário, é necessário informar o nome, email e senha
@@ -15,9 +15,9 @@ export type CreateUserOutputDto = {
 }
 
 export class CreateUserUsecase implements Usecase<CreateUserInputDto, CreateUserOutputDto> {
-    private constructor(private readonly userGateway: UserGataway){}
+    private constructor(private readonly userGateway: UserGateway){}
 
-    public static create(userGateway: UserGataway){
+    public static create(userGateway: UserGateway){
         return new CreateUserUsecase(userGateway);
     }
 
