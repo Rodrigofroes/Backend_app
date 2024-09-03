@@ -1,6 +1,6 @@
 Confirações e dependências:
 - [x] TypeScript
-- [ ] Express
+- [x] Express
 - [x] Prisma
 - [x] PostgresSQL
 - [ ] JWT 
