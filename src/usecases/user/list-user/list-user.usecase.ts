@@ -1,5 +1,5 @@
 import { UserGataway } from "../../../domain/user/gateway/user.gateway";
-import { Usecase } from "../../usercase";
+import { Usecase } from "../../usecase";
 
 export type ListUserInputDto = void;
 
