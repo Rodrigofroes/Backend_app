@@ -15,11 +15,11 @@ export class ListUserRoute implements Route {
         private readonly path: string,
         private readonly method: HttpMethod,
         private readonly ListUserService: ListUserUsecase
-    ) { }
+    ) {}
 
     public static create(ListUserService: ListUserUsecase) {
         return new ListUserRoute(
-            '/users',
+            '/usuarios',
             HttpMethod.GET,
             ListUserService
         )
@@ -27,11 +27,15 @@ export class ListUserRoute implements Route {
 
     public getHandler(): (req: Request, res: Response) => Promise<void> {
         return async (req: Request, res: Response) => {
-            const users = await this.ListUserService.execute();
+            try {
+                const users = await this.ListUserService.execute();
+                
+                const usersResponse = this.present(users);
 
-            res.status(200).json({
-                users: users.users
-            });
+                res.status(200).json(usersResponse);
+            } catch (error: any) {
+                res.status(500).send({ message: error.message });
+            }
         }
     }
 

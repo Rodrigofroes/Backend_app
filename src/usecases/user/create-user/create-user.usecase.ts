@@ -26,7 +26,7 @@ export class CreateUserUsecase implements Usecase<CreateUserInputDto, CreateUser
         const aEmail = await this.userGateway.findByEmail(email);
 
         if (aEmail) {
-            throw new Error('Email já cadastrado');
+           throw new Error('Email já cadastrado');
         }
 
         const aUser = User.create(nome, email, senha);

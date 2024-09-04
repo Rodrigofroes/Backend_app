@@ -21,7 +21,7 @@ export class UpdateUserUsecase implements Usecase<UpdateUserInputDto, UpdateUser
     }
 
     public async execute(input: UpdateUserInputDto): Promise<UpdateUserOutputDto> {
-        const aUser = this.useGateway.findById(input.id);
+        const aUser = await this.useGateway.findById(input.id);
         if (!aUser) {
             throw new Error('Usuário não encontrado');
         }
@@ -40,7 +40,6 @@ export class UpdateUserUsecase implements Usecase<UpdateUserInputDto, UpdateUser
         const output: UpdateUserOutputDto = {
             id: user.id
         }
-
         return output;
     }
 
