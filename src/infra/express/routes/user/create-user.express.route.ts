@@ -2,10 +2,6 @@ import { CreateUserUsecase } from "../../../../usecases/user/create-user/create-
 import { HttpMethod, Route } from "../routes";
 import { Request, Response } from 'express';
 
-export type CreateUserReponseDto = {
-    id: string;
-}
-
 export class CreateUserRoute implements Route {
     private constructor(
         private readonly path: string,
@@ -42,9 +38,4 @@ export class CreateUserRoute implements Route {
         return this.method;
     }
 
-    private present(input: CreateUserReponseDto): CreateUserReponseDto {
-        return {
-            id: input.id
-        }
-    }
 }

@@ -81,4 +81,6 @@ export class UserRepositoryPrisma implements UserGateway {
             where: { id }
         });
     }
+
+    
 }
