@@ -29,7 +29,7 @@ export class ApiExpress implements Api {
 
     public start(port: any ): void {
         this.app.listen(port, () => {
-            console.log("http://" + env.HOST + "/" + port);
+            console.log("http://" + env.HOST + ":" + port);
             this.listRoutes();
         });
     }
