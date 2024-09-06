@@ -21,9 +21,12 @@ export class CreateUserRoute implements Route {
         return async (req: Request, res: Response) => {
             try {
                 const { nome, email, senha } = req.body;
-                const user = await this.CreateUserService.execute({ nome, email, senha });
-
-                res.status(201).json({message: 'Usuário criado com sucesso!'});
+                if (nome && email && senha) {
+                    await this.CreateUserService.execute({ nome, email, senha });
+                    res.status(201).json({ message: 'Usuário criado com sucesso!' });
+                } else {
+                    res.status(400).json({ message: 'Parâmetros inválidos!' });
+                }
             } catch (error: any) {
                 res.status(500).send({ message: error.message });
             }

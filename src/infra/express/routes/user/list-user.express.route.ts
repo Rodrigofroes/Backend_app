@@ -29,7 +29,6 @@ export class ListUserRoute implements Route {
         return async (req: Request, res: Response) => {
             try {
                 const users = await this.ListUserService.execute();
-                
                 const usersResponse = this.present(users);
 
                 res.status(200).json(usersResponse);

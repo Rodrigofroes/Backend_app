@@ -9,10 +9,8 @@ export type CreateUserInputDto = {
     senha: string;
 }
 
-// Ao criar um usuário, o sistema deve retornar o id do usuário criado
-export type CreateUserOutputDto = {
-    id: string;
-}
+
+export type CreateUserOutputDto = void;
 
 export class CreateUserUsecase implements Usecase<CreateUserInputDto, CreateUserOutputDto> {
     private constructor(private readonly userGateway: UserGateway){}
@@ -33,11 +31,7 @@ export class CreateUserUsecase implements Usecase<CreateUserInputDto, CreateUser
 
         await this.userGateway.save(aUser);
         
-        const output: CreateUserOutputDto = {
-            id: aUser.id
-        }
-    
-        return output;
+        return;
     }
 
     public validateUser(user: CreateUserInputDto) {

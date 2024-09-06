@@ -11,7 +11,7 @@ export class UpdateUserRoute implements Route {
 
     public static create(UpdateUserService: UpdateUserUsecase) {
         return new UpdateUserRoute(
-            '/usuario/:id',
+            '/usuario',
             HttpMethod.PUT,
             UpdateUserService
         );
@@ -20,12 +20,14 @@ export class UpdateUserRoute implements Route {
     public getHandler(): (req: Request, res: Response) => Promise<void> {
         return async (req: Request, res: Response) => {
             try {
-                const { id } = req.params;
-                const { nome, email, senha } = req.body;
-                const user = await this.UpdateUserService.execute({ id, nome, email, senha  });
-
-                res.status(200).json({message: 'Usuário atualizado com sucesso!'});
                 
+                const { id, nome, email, senha } = req.body;
+                if(id && nome && email && senha) {
+                    await this.UpdateUserService.execute({ id, nome, email, senha });
+                    res.status(200).json({message: 'Usuário atualizado com sucesso!'});
+                }else {
+                    res.status(400).json({message: 'Parâmetros inválidos!'});
+                }
             } catch (error: any) {
                 res.status(500).send({ message: error.message });
             }

@@ -14,7 +14,7 @@ export class FindByIdUserRoute implements Route {
         private readonly path: string,
         private readonly method: HttpMethod,
         private readonly FindByIdUserService: FindByIdUsercase
-    ) {}
+    ) { }
 
     public static create(FindByIdUserService: FindByIdUsercase) {
         return new FindByIdUserRoute(
@@ -28,11 +28,13 @@ export class FindByIdUserRoute implements Route {
         return async (req: Request, res: Response) => {
             try {
                 const { id } = req.params;
-                const user = await this.FindByIdUserService.execute({ id });
-
-                const userResponse = this.present(user);
-
-                res.status(200).json(userResponse);
+                if (id) {
+                    const user = await this.FindByIdUserService.execute({ id });
+                    const userResponse = this.present(user);
+                    res.status(200).json(userResponse);
+                } else {
+                    res.status(400).json({ message: 'Parâmetros inválidos!' });
+                }
             } catch (error: any) {
                 res.status(500).send({ message: error.message });
             }
