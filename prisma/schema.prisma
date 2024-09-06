@@ -9,8 +9,8 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL_LOCAL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -21,7 +21,7 @@ model User {
   createdAt DateTime         @default(now()) @map("usu_data_criacao")
   contas    ContaPagar[] 
 
-  @@map("users")
+  @@map("tb_users")
 }
 
 model ContaPagar {
