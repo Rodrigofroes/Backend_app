@@ -12,7 +12,7 @@ export class ContaPagarRepositoryPrisma implements ContaPagarGateway {
     public async save(contaPagar: ContaPagar): Promise<void> {
         const data = {
             id: contaPagar.id,
-            dataVencimento: new Date(contaPagar.dataVencimento),
+            dataVencimento: new Date(contaPagar.dataVencimento).toISOString(),
             valor: contaPagar.valor,
             status: contaPagar.status,
             despesa: contaPagar.despesa,

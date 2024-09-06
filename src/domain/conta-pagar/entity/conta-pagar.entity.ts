@@ -22,6 +22,7 @@ export class ContaPagar{
             despesa,
             usuario
         });
+
     }
 
     public static with(props: ContaPagarProps){

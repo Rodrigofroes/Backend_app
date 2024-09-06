@@ -21,11 +21,11 @@ export class CreateContaPagarRoute implements Route {
         return async (req: Request, res: Response) => {
             try {
                 const { dataVencimento, valor, status, despesa, usuario } = req.body;
-                const contaPagar = await this.CreateContaPagarService.execute({ dataVencimento, valor, status, despesa, usuario });
-                if (contaPagar) {
-                    res.status(201).json({ message: 'Conta a pagar criada com sucesso!' });
+                if (dataVencimento && valor && status && despesa && usuario) {
+                    await this.CreateContaPagarService.execute({ dataVencimento, valor, status, despesa, usuario });
+                    res.status(201).send({ message: 'Conta criada com sucesso!' });
                 } else {
-                    res.status(500).send({ message: 'Erro ao criar conta a pagar' });
+                    res.status(400).send({ message: 'Parâmetros inválidos!' });
                 }
             } catch (error: any) {
                 res.status(500).send({ message: error.message });
