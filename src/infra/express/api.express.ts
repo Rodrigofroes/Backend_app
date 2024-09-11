@@ -2,12 +2,16 @@ import { Api } from "../api";
 import express, { Express } from "express";
 import { Route } from "./routes/routes";
 import { env } from "process";
+import { AuthRepository } from "../respositories/user/auth";
 
 
 export class ApiExpress implements Api {
     private app: Express;
 
-    private constructor(routes: Route[]) {
+    private constructor(
+        routes: Route[],
+        private readonly authService: AuthRepository = AuthRepository.create()
+    ) {
         this.app = express();
         this.app.use(express.json());
         this.addRoutes(routes);
@@ -22,8 +26,14 @@ export class ApiExpress implements Api {
             const path = route.getPath();
             const method = route.getMethod();
             const handler = route.getHandler();
+            const isProtected = route.isProtected();
 
-            this.app[method](path, handler);
+            if(isProtected){
+                this.app[method](path, this.authService.validarToken, handler);
+            } else {
+                this.app[method](path, handler);
+            }
+
         })
     }
 

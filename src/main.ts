@@ -12,6 +12,7 @@ import { FindByIdUserRoute } from "./infra/express/routes/user/findById-user.exp
 import { ListUserRoute } from "./infra/express/routes/user/list-user.express.route";
 import { UpdateUserRoute } from "./infra/express/routes/user/update-user.express.route";
 import { ContaPagarRepositoryPrisma } from "./infra/respositories/conta-pagar/conta-pagar.repository.prisma";
+import { AuthRepository } from "./infra/respositories/user/auth";
 import { UserRepositoryPrisma } from "./infra/respositories/user/user.repository.prisma";
 import { prisma } from "./package/prisma";
 import { CreateContaPagarUsecase } from "./usecases/conta-pagar/create-conta-pagar/create-conta-pagar.usecase";
@@ -31,13 +32,17 @@ function main(){
     const aRepository = UserRepositoryPrisma.create(prisma);
     const aRepositoryContaPagar = ContaPagarRepositoryPrisma.create(prisma);
 
+    // Auth
+    const authRepository = AuthRepository.create();
+
+
     // Usuário
     const createUserUsecase = CreateUserUsecase.create(aRepository);
     const listUserUsecase = ListUserUsecase.create(aRepository);
     const findbyIdUserUsecase = FindByIdUsercase.create(aRepository);
     const updateUserUsecase = UpdateUserUsecase.create(aRepository);
     const deleteUserUsecase = DeleteUserUsercase.create(aRepository);
-    const findByEmailAndPassowoesUsecase = FindByEmailAndPasswordUsecase.create(aRepository);
+    const findByEmailAndPassowoesUsecase = FindByEmailAndPasswordUsecase.create(aRepository, authRepository);
 
     const createRoute = CreateUserRoute.create(createUserUsecase);
     const listRoute = ListUserRoute.create(listUserUsecase);

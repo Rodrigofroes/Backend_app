@@ -1,5 +1,5 @@
 import { HttpMethod } from "../routes";
-import { Request, Response } from 'express';
+import e, { Request, Response } from 'express';
 import { Route } from "../routes";
 import { FindByEmailAndPasswordUsecase } from "../../../../usecases/user/findByEmailAndPassword-user/findByEmailAndPassword-user.usecase";
 
@@ -14,7 +14,7 @@ export class FindByEmailAndPasswordUserRoute implements Route {
 
     public static create(FindByEmailAndPasswordUserService: FindByEmailAndPasswordUsecase) {
         return new FindByEmailAndPasswordUserRoute(
-            '/usuario/consulta',
+            '/auth/login',
             HttpMethod.POST,
             FindByEmailAndPasswordUserService
         );
@@ -26,7 +26,7 @@ export class FindByEmailAndPasswordUserRoute implements Route {
                 const { email, senha } = req.body;
                 if (email && senha) {
                     const user = await this.FindByEmailAndPasswordUserService.execute({ email, senha });
-                    res.status(200).json({ message: 'Usuário encontrado!' });
+                    res.status(200).json(user);
                 } else {
                     res.status(400).json({ message: 'Parâmetros inválidos!' });
                 }
@@ -42,5 +42,9 @@ export class FindByEmailAndPasswordUserRoute implements Route {
 
     public getMethod(): HttpMethod {
         return this.method;
+    }
+
+    public isProtected(): boolean {
+        return false;
     }
 }

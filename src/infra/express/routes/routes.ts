@@ -13,4 +13,5 @@ export interface Route {
     getHandler(): (req: Request, res: Response) => Promise<void>
     getPath(): string;
     getMethod(): HttpMethod;
+    isProtected(): boolean;
 }
