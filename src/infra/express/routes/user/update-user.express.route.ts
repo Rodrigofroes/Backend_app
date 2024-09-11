@@ -41,4 +41,8 @@ export class UpdateUserRoute implements Route {
     public getMethod(): HttpMethod {
         return this.method;
     }
+
+    public isProtected(): boolean {
+        return true;
+    }
 }

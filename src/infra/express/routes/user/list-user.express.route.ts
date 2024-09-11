@@ -46,6 +46,10 @@ export class ListUserRoute implements Route {
         return this.method;
     }
 
+    public isProtected(): boolean {
+        return true;
+    }
+
     private present(input: ListUserReponseDto): ListUserReponseDto {
         const reponse: ListUserReponseDto = {
             users: input.users.map(user => ({

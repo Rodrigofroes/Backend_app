@@ -62,4 +62,8 @@ export class ListContaPagarRoute implements Route {
 
         return response;
     }
+
+    public isProtected(): boolean {
+        return true;
+    }
 }

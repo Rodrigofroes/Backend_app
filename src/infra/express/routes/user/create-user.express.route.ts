@@ -41,4 +41,8 @@ export class CreateUserRoute implements Route {
         return this.method;
     }
 
+    public isProtected(): boolean {
+        return true;
+    }
+
 }

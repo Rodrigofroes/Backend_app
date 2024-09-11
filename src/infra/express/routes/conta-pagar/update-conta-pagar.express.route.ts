@@ -41,4 +41,7 @@ export class UpdateContaPgarUseRoute implements Route{
         return this.method;
     }
 
+    public isProtected(): boolean {
+        return true;
+    }
 }

@@ -64,4 +64,8 @@ export class FindByIdContaPagarRoute implements Route{
         return response;
     }
 
+    public isProtected(): boolean {
+        return true;
+    }
+
 }

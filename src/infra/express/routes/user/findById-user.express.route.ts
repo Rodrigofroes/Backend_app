@@ -53,6 +53,10 @@ export class FindByIdUserRoute implements Route {
         return this.method;
     }
 
+    public isProtected(): boolean {
+        return true;
+    }
+
     private present(input: FindByIdUserResponseDto): FindByIdUserResponseDto {
         const response: FindByIdUserResponseDto = {
             id: input.id,
