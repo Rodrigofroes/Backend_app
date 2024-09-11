@@ -82,5 +82,21 @@ export class UserRepositoryPrisma implements UserGateway {
         });
     }
 
-    
+    public async findByEmailAndPassword(email: string, password: string): Promise<User | null> {
+        const user = await this.prisma.user.findFirst({
+            where: {
+                email,
+                password
+            }
+        });
+
+        if (!user) return null;
+
+        return User.with({
+            id: user.id,
+            nome: user.name,
+            email: user.email,
+            senha: user.password
+        });
+    }
 }

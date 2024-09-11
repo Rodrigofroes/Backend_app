@@ -24,7 +24,7 @@ export class CreateUserUsecase implements Usecase<CreateUserInputDto, CreateUser
         const aEmail = await this.userGateway.findByEmail(email);
 
         if (aEmail) {
-           throw new Error('Email já cadastrado');
+           throw new Error('E-mail já cadastrado.');
         }
 
         const aUser = User.create(nome, email, senha);
@@ -36,13 +36,13 @@ export class CreateUserUsecase implements Usecase<CreateUserInputDto, CreateUser
 
     public validateUser(user: CreateUserInputDto) {
         if (!user.nome) {
-            throw new Error('Nome é obrigatório');
+            throw new Error('Nome é obrigatório!');
         }
         if (!user.email) {
-            throw new Error('Email é obrigatório');
+            throw new Error('E-mail é obrigatório!');
         }
         if (!user.senha) {
-            throw new Error('Senha é obrigatório');
+            throw new Error('Senha é obrigatório!');
         }
     }
 }

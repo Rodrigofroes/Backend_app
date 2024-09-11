@@ -23,7 +23,7 @@ export class CreateUserRoute implements Route {
                 const { nome, email, senha } = req.body;
                 if (nome && email && senha) {
                     await this.CreateUserService.execute({ nome, email, senha });
-                    res.status(201).json({ message: 'Usuário criado com sucesso!' });
+                    res.status(201).json({ message: 'Conta criada com sucesso!'});
                 } else {
                     res.status(400).json({ message: 'Parâmetros inválidos!' });
                 }

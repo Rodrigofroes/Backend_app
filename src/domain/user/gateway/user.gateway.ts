@@ -7,4 +7,5 @@ export interface UserGateway {
     findByEmail(email: string): Promise<User | null>;
     findById(id: string): Promise<User | null>;
     delete(id: string): Promise<void>;
+    findByEmailAndPassword(email: string, password: string): Promise<User | null>;
 }

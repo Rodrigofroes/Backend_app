@@ -30,8 +30,12 @@ export class FindByIdUserRoute implements Route {
                 const { id } = req.params;
                 if (id) {
                     const user = await this.FindByIdUserService.execute({ id });
-                    const userResponse = this.present(user);
-                    res.status(200).json(userResponse);
+                    if (user) {
+                        const userResponse = this.present(user);
+                        res.status(200).json(userResponse);
+                    } else {
+                        res.status(400).json({ message: 'Usuário não encontrado!' });
+                    }
                 } else {
                     res.status(400).json({ message: 'Parâmetros inválidos!' });
                 }
