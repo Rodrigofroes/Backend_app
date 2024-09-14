@@ -42,7 +42,7 @@ export class CreateUserRoute implements Route {
     }
 
     public isProtected(): boolean {
-        return true;
+        return false;
     }
 
 }

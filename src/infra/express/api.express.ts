@@ -1,24 +1,32 @@
 import { Api } from "../api";
 import express, { Express } from "express";
+import cors from 'cors'; 
 import { Route } from "./routes/routes";
 import { env } from "process";
-import { AuthRepository } from "../respositories/user/auth";
-
+import { middleware} from "../middleware/authMiddleware";
 
 export class ApiExpress implements Api {
     private app: Express;
 
     private constructor(
         routes: Route[],
-        private readonly authService: AuthRepository = AuthRepository.create()
+        private readonly middlewareService: middleware
     ) {
         this.app = express();
         this.app.use(express.json());
+
+        // Adding CORS middleware
+        this.app.use(cors({
+            origin: env.ALLOWED_ORIGINS || '*', 
+            methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+            allowedHeaders: ['Content-Type', 'Authorization'], 
+        }));
+
         this.addRoutes(routes);
     }
 
-    public static create(routes: Route[]) {
-        return new ApiExpress(routes);
+    public static create(routes: Route[], middlewareService: middleware ): ApiExpress {
+        return new ApiExpress(routes, middlewareService);
     }
 
     public addRoutes(routes: Route[]) {
@@ -29,7 +37,7 @@ export class ApiExpress implements Api {
             const isProtected = route.isProtected();
 
             if(isProtected){
-                this.app[method](path, this.authService.validarToken, handler);
+                this.app[method](path, this.middlewareService.validarToken, handler);
             } else {
                 this.app[method](path, handler);
             }
@@ -37,9 +45,9 @@ export class ApiExpress implements Api {
         })
     }
 
-    public start(port: any ): void {
+    public start(port: any): void {
         this.app.listen(port, () => {
-            console.log("http://" + env.HOST + ":" + port);
+            console.log("http://" + env.HOST + ":" + env.PORT);
             this.listRoutes();
         });
     }
@@ -52,7 +60,7 @@ export class ApiExpress implements Api {
                 path: route.route.path,
                 method: route.route.stack[0].method
             }
-        })
+        });
 
         console.table(routes);
     }

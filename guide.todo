@@ -3,7 +3,7 @@ Confirações e dependências:
 - [x] Express
 - [x] Prisma
 - [x] PostgresSQL
-- [ ] JWT
+- [x] JWT
 
 Desenvolvimento utilizando SOLID + Clean Architecture: 
 - [x] Domain
@@ -20,7 +20,7 @@ Divisão das tabelas:
 
 -- Rodrigo -- 
 - [ ] Tipo de Despesa
-- [ ] Conta a Pagar
+- [x] Conta a Pagar
 - [ ] Debíto
 - [ ] Forma Pagamento
 - [ ] Fluxo de Caixa
