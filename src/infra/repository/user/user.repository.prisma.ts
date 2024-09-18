@@ -81,4 +81,18 @@ export class UserRepositoryPrisma implements UserGateway {
             where: { id }
         });
     }
+
+    public async updatePassword(email: string, password: string): Promise<void> {
+ 
+        const user = await this.prisma.user.findFirst({
+            where: { id: email }
+        });
+
+        if (!user) return;
+        console.log({ id: user.id, password: password });
+        await this.prisma.user.update({
+            where: { id: user.id },
+            data: { password: password }
+        });
+    }
 }

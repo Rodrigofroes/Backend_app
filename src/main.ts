@@ -1,4 +1,5 @@
 
+import { EmailAdapter } from "./infra/adpater/email.adapter";
 import { ApiExpress } from "./infra/express/api.express";
 import { CreateAccontPayRoute } from "./infra/express/routes/account-pay/create-account-pay.express.route";
 import { DeleteAccountPayRoute } from "./infra/express/routes/account-pay/delete-account-pay.express.route";
@@ -6,6 +7,7 @@ import { FindByAccoutPayRoute } from "./infra/express/routes/account-pay/findbyi
 import { ListAccountPayRoute } from "./infra/express/routes/account-pay/list-account-pay.express.route";
 import { UpdateAccountPayRoute } from "./infra/express/routes/account-pay/update-account-pay.express.route";
 import { AuthRoute } from "./infra/express/routes/auth/auth.express.route";
+import { PasswordRecoveryRoute } from "./infra/express/routes/password-recovery/password-recovery.express.route";
 import { CreateUserRoute } from "./infra/express/routes/user/create-user.express.route";
 import { DeleteUserRoute } from "./infra/express/routes/user/delete-user.express.route";
 import { FindByEmailRoute } from "./infra/express/routes/user/findByEmail-user.express";
@@ -15,6 +17,7 @@ import { middleware } from "./infra/middleware/authMiddleware";
 import { AccountPayRepositoryPrisma } from "./infra/repository/account-pay/account-pay.repository.prisma";
 import { AuthRepositoryPrisma } from "./infra/repository/auth/auth.repository.prisma";
 import { UserRepositoryPrisma } from "./infra/repository/user/user.repository.prisma";
+import { EmailService } from "./infra/services/email.service";
 import { prisma } from "./package/prisma";
 import { CreateAccountPayUsecase } from "./usecases/account-pay/create-account-pay/create-account-pay.usecase";
 import { DeleteAccoutPayUsecase } from "./usecases/account-pay/delete-account-pay/delete-account-pay.usecase";
@@ -22,6 +25,7 @@ import { FindByAccountPayUsecase } from "./usecases/account-pay/findbyid-account
 import ListAccountPayUsecase from "./usecases/account-pay/list-account-pay/list-account-pay.usecase";
 import { UpdateAccountPayUsecase } from "./usecases/account-pay/update-account-pay/update-account-pay.usecase";
 import { AuthUsecase } from "./usecases/auth/auth.usecase";
+import { PasswordRecoveryUsecase } from "./usecases/password-recovery/password-recovery.usecase";
 import { CreateUserUsecase } from "./usecases/user/create-user/create-user.usecase";
 import { DeleteUserUsercase } from "./usecases/user/delete-user/delete-user.usecase";
 import { FindByEmailUsecase } from "./usecases/user/findByEmail-user/findyByEmail-user.usecase";
@@ -35,7 +39,7 @@ function main() {
     const aRepositoryAccountPay = AccountPayRepositoryPrisma.create(prisma);
 
     // Criando o authRepository corretamente
-    
+
 
     // Usuário
     const createUserUsecase = CreateUserUsecase.create(aRepository);
@@ -66,18 +70,23 @@ function main() {
 
     // Auth
     const authRepository = AuthRepositoryPrisma.create(prisma, middleware.create());
-    
     const authUsecase = AuthUsecase.create(authRepository);
     const authRoute = AuthRoute.create(authUsecase);
+
+    const emailAdapter = new EmailAdapter();
+    const emailService = EmailService.create(emailAdapter);
+
+    const passwordRecoveryUsecase = PasswordRecoveryUsecase.create(emailService,  aRepository);
+    const passwordRecoveryRoute = PasswordRecoveryRoute.create(passwordRecoveryUsecase);
 
     const api = ApiExpress.create(
         [
             createRoute, listRoute, deleteRoute, updateRoute,
-            createAccoutPayRoute, listAccountPayRoute, updateAccountePayRoute, deleteACcountPayRoute, 
-            findByIdAccountPayRoute, findByEmailRoute, authRoute
+            createAccoutPayRoute, listAccountPayRoute, updateAccountePayRoute, deleteACcountPayRoute,
+            findByIdAccountPayRoute, findByEmailRoute, authRoute, passwordRecoveryRoute
         ], middleware.create()
     );
-    
+
     const port = process.env.POST || 3000;
     api.start(port);
 }
