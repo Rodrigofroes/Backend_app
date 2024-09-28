@@ -1,32 +1,49 @@
-import { AuthGateway } from "../../infra/middleware/gateway/authGateway";
+import { User } from "@prisma/client";
+import { UserGateway } from "../../domains/user/gateway/user.gateway";
+import { AuthMiddleware } from "../../Infrastructures/express/middlewares/authMiddleware";
 import { Usecase } from "../usecase";
+import bcrypt from 'bcrypt';
 
 export type AuthInputDto = {
-    email: string;
-    senha: string;
-}
+    email: string,
+    password: string
+};
 
 export type AuthOutputDto = string;
 
-export class AuthUsecase implements Usecase<AuthInputDto, AuthOutputDto> {
-    private constructor(private readonly authGateway: AuthGateway) { }
+export class AuthUsecase implements Usecase<AuthInputDto, AuthOutputDto>{
+    private constructor(
+        private readonly useGateway: UserGateway,
+        private readonly authService: AuthMiddleware
+    ){}
 
-    public static create(authGateway: AuthGateway) {
-        return new AuthUsecase(authGateway);
+    public static create(useGateway: UserGateway, authService: AuthMiddleware){
+        return new AuthUsecase(useGateway, authService);
     }
 
-    public async execute(input: AuthInputDto): Promise<AuthOutputDto> {
-        this.validateInput(input);
-        const token = await this.authGateway.login(input.email, input.senha);
-        return token;
-    }
+    public async execute(input: AuthInputDto): Promise<AuthOutputDto>{
+        this.validadeInput(input);
 
-    public validateInput(input: AuthInputDto) {
-        if (!input.email) {
-            throw new Error('E-mail é obrigatório!');
+        const aUser = await this.useGateway.getUserByEmail(input.email);
+
+        if(!aUser){
+            throw new Error("Usuário não encontrado");
         }
-        if (!input.senha) {
-            throw new Error('Senha é obrigatório!');
+
+        const isPasswordValid = await bcrypt.compare(input.password, aUser.password);
+
+        if (!isPasswordValid) {
+            throw new Error("Usuário e/ou senha inválidos");
+        }
+
+        return this.authService.gerarToken(aUser.id, aUser.name, aUser.email);
+
+    }
+
+    private validadeInput(input: AuthInputDto){
+        if(!input.email || !input.password){
+            throw new Error("Parâmetros inválidos");
         }
     }
+    
 }

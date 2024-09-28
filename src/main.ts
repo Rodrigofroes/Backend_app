@@ -1,93 +1,140 @@
-
-import { EmailAdapter } from "./infra/adpater/email.adapter";
-import { ApiExpress } from "./infra/express/api.express";
-import { CreateAccontPayRoute } from "./infra/express/routes/account-pay/create-account-pay.express.route";
-import { DeleteAccountPayRoute } from "./infra/express/routes/account-pay/delete-account-pay.express.route";
-import { FindByAccoutPayRoute } from "./infra/express/routes/account-pay/findbyid-account-pay..express.route";
-import { ListAccountPayRoute } from "./infra/express/routes/account-pay/list-account-pay.express.route";
-import { UpdateAccountPayRoute } from "./infra/express/routes/account-pay/update-account-pay.express.route";
-import { AuthRoute } from "./infra/express/routes/auth/auth.express.route";
-import { PasswordRecoveryRoute } from "./infra/express/routes/password-recovery/password-recovery.express.route";
-import { CreateUserRoute } from "./infra/express/routes/user/create-user.express.route";
-import { DeleteUserRoute } from "./infra/express/routes/user/delete-user.express.route";
-import { FindByEmailRoute } from "./infra/express/routes/user/findByEmail-user.express";
-import { ListUserRoute } from "./infra/express/routes/user/list-user.express.route";
-import { UpdateUserRoute } from "./infra/express/routes/user/update-user.express.route";
-import { middleware } from "./infra/middleware/authMiddleware";
-import { AccountPayRepositoryPrisma } from "./infra/repository/account-pay/account-pay.repository.prisma";
-import { AuthRepositoryPrisma } from "./infra/repository/auth/auth.repository.prisma";
-import { UserRepositoryPrisma } from "./infra/repository/user/user.repository.prisma";
-import { EmailService } from "./infra/services/email.service";
-import { prisma } from "./package/prisma";
-import { CreateAccountPayUsecase } from "./usecases/account-pay/create-account-pay/create-account-pay.usecase";
-import { DeleteAccoutPayUsecase } from "./usecases/account-pay/delete-account-pay/delete-account-pay.usecase";
-import { FindByAccountPayUsecase } from "./usecases/account-pay/findbyid-account-pay/findyid-account-pay.usecase";
-import ListAccountPayUsecase from "./usecases/account-pay/list-account-pay/list-account-pay.usecase";
-import { UpdateAccountPayUsecase } from "./usecases/account-pay/update-account-pay/update-account-pay.usecase";
+import { env } from "process";
+import { ApiExpress } from "./Infrastructures/express/api.express";
+import { CreateUserRoute } from "./Infrastructures/express/routes/user/createUser.express.route";
+import { UserRepository } from "./Infrastructures/repositories/user/user.infrastructure.repository";
+import { CreateUserUsecase } from "./usecases/user/createUser.usecase";
+import { banco } from "./Infrastructures/package/banco";
+import { DeleteUserUsecase } from "./usecases/user/deleteUser.usecase";
+import { DeleteUserRoute } from "./Infrastructures/express/routes/user/deleteUser.express.route";
+import { GetUserByIdUsecase } from "./usecases/user/getUserById.usecase";
+import { GetUserByIdRoute } from "./Infrastructures/express/routes/user/getUserById.express.route";
+import { UpdateUserUsecase } from "./usecases/user/updateUser.usecase";
+import { AuthMiddleware } from "./Infrastructures/express/middlewares/authMiddleware";
 import { AuthUsecase } from "./usecases/auth/auth.usecase";
-import { PasswordRecoveryUsecase } from "./usecases/password-recovery/password-recovery.usecase";
-import { CreateUserUsecase } from "./usecases/user/create-user/create-user.usecase";
-import { DeleteUserUsercase } from "./usecases/user/delete-user/delete-user.usecase";
-import { FindByEmailUsecase } from "./usecases/user/findByEmail-user/findyByEmail-user.usecase";
-import { FindByIdUsercase } from "./usecases/user/findbyid-user/findbyid-user.usecase";
-import { ListUserUsecase } from "./usecases/user/list-user/list-user.usecase";
-import { UpdateUserUsecase } from "./usecases/user/update-user/update-user.usecase";
+import { AuthRoute } from "./Infrastructures/express/routes/auth/auth.express.route";
+import { CreateClientUsecase } from "./usecases/client/createClient.usecase";
+import { CreateClientRoute } from "./Infrastructures/express/routes/client/createClient.express.route";
+import { ClientRepository } from "./Infrastructures/repositories/client/client.infrastructure.repository";
+import { DeleteClientUsecase } from "./usecases/client/deleteClient.usecase";
+import { deleteClienteRoute } from "./Infrastructures/express/routes/client/deleteClient.express.route";
+import { UpdateClientUsecase } from "./usecases/client/updateClient.usecase";
+import { UpdateClientRoute } from "./Infrastructures/express/routes/client/updateClient.express.route";
+import { GetClientByIdUsecase } from "./usecases/client/getClientById.usecase";
+import { GetClientByIdRoute } from "./Infrastructures/express/routes/client/getClientById.expess.route";
+import { ExpenseRepository } from "./Infrastructures/repositories/expense/expense.infrastructure.repository";
+import { ListExpensesUsecase } from "./usecases/expense/listExpenses.usecase";
+import { ListExpensesRoute } from "./Infrastructures/express/routes/expense/listExpenses.express.route";
+import { CategoryRepository } from "./Infrastructures/repositories/category/category.infrastructure.repository";
+import { CreateCategoryUsecase } from "./usecases/category/createCategory.usecase";
+import { CreateCategoryRoute } from "./Infrastructures/express/routes/category/createCategory.express.route";
+import { DeleteCategoryUsecase } from "./usecases/category/deleteCategory.usecase";
+import { DeleteCategoryRoute } from "./Infrastructures/express/routes/category/deleteCategory.express.route";
+import { ListCategoryUsecase } from "./usecases/category/listCategory.usecase";
+import { ListCategoryRoute } from "./Infrastructures/express/routes/category/listCategory.express.route";
+import { ResetPasswordUsecase } from "./usecases/resetPassword/resetPassword.usecase";
+import { EmailService } from "./Infrastructures/service/email/email.service";
+import { ResetPasswordRoute } from "./Infrastructures/express/routes/resetPassword/resetPassword.express.route";
+import { CreateExpenseUsecase } from "./usecases/expense/createExpense.usecase";
+import { CreateExpenseRoute } from "./Infrastructures/express/routes/expense/createExpense.express.route";
+import { GetExpenseByIdUsecase } from "./usecases/expense/getExpenseById.usecase";
+import { GetExpenseByIdRoute } from "./Infrastructures/express/routes/expense/getExpenseById.express.route";
+import { UpdateUserRoute } from "./Infrastructures/express/routes/user/updateUser.express.route";
+import { DeleteExpenseUsecase } from "./usecases/expense/deleteExpense.usecase";
+import { DeleteExpenseRoute } from "./Infrastructures/express/routes/expense/deleteExpense.express.route.";
+import { UpdateExpenseUsecase } from "./usecases/expense/updateExpense.usecase";
+import { UpdateExpenseRoute } from "./Infrastructures/express/routes/expense/updateExpense.express.route";
 
+async function main(){
+    const middleware = new AuthMiddleware();
 
-function main() {
-    const aRepository = UserRepositoryPrisma.create(prisma);
-    const aRepositoryAccountPay = AccountPayRepositoryPrisma.create(prisma);
-
-    // Criando o authRepository corretamente
-
-
+    
     // Usuário
+    const aRepository = UserRepository.create(banco);
+
     const createUserUsecase = CreateUserUsecase.create(aRepository);
-    const listUserUsecase = ListUserUsecase.create(aRepository);
+    const deleteUserUsecase = DeleteUserUsecase.create(aRepository);
+    const getUserByIdUsecase = GetUserByIdUsecase.create(aRepository);
     const updateUserUsecase = UpdateUserUsecase.create(aRepository);
-    const deleteUserUsecase = DeleteUserUsercase.create(aRepository);
-    const findByEmailUsecase = FindByEmailUsecase.create(aRepository);
 
-    const createRoute = CreateUserRoute.create(createUserUsecase);
-    const listRoute = ListUserRoute.create(listUserUsecase);
-    const deleteRoute = DeleteUserRoute.create(deleteUserUsecase);
-    const updateRoute = UpdateUserRoute.create(updateUserUsecase);
-    const findByEmailRoute = FindByEmailRoute.create(findByEmailUsecase);
+    const createUserRoute = CreateUserRoute.create(createUserUsecase);
+    const deleteUserRoute = DeleteUserRoute.create(deleteUserUsecase);
+    const getUserByIdRoute = GetUserByIdRoute.create(getUserByIdUsecase);
+    const updateUserRoute = UpdateUserRoute.create(updateUserUsecase);
 
-    // Conta Pagar
-    const listAccountPayUsecase = ListAccountPayUsecase.create(aRepositoryAccountPay);
-    const updateAccountPayUseCase = UpdateAccountPayUsecase.create(aRepositoryAccountPay);
-    const deleteContaPagarUseCase = DeleteAccoutPayUsecase.create(aRepositoryAccountPay);
-    const findByAccountPayUsecase = FindByAccountPayUsecase.create(aRepositoryAccountPay);
-    const createAccountPayUseCase = CreateAccountPayUsecase.create(aRepositoryAccountPay);
+    // Auth/login
+    const authUsecase = AuthUsecase.create(aRepository, middleware);
 
-    const createAccoutPayRoute = CreateAccontPayRoute.create(createAccountPayUseCase);
-    const listAccountPayRoute = ListAccountPayRoute.create(listAccountPayUsecase);
-    const updateAccountePayRoute = UpdateAccountPayRoute.create(updateAccountPayUseCase);
-    const deleteACcountPayRoute = DeleteAccountPayRoute.create(deleteContaPagarUseCase);
-    const findByIdAccountPayRoute = FindByAccoutPayRoute.create(findByAccountPayUsecase);
-
-
-    // Auth
-    const authRepository = AuthRepositoryPrisma.create(prisma, middleware.create());
-    const authUsecase = AuthUsecase.create(authRepository);
     const authRoute = AuthRoute.create(authUsecase);
 
-    const emailAdapter = new EmailAdapter();
-    const emailService = EmailService.create(emailAdapter);
+    // Cliente
+    const clientRepository = ClientRepository.create(banco);
 
-    const passwordRecoveryUsecase = PasswordRecoveryUsecase.create(emailService,  aRepository);
-    const passwordRecoveryRoute = PasswordRecoveryRoute.create(passwordRecoveryUsecase);
+    const createClientUsecase = CreateClientUsecase.create(clientRepository);
+    const deleteClientUsecase = DeleteClientUsecase.create(clientRepository);
+    const updateClientUsecase = UpdateClientUsecase.create(clientRepository);
+    const getClientByIdUsecase = GetClientByIdUsecase.create(clientRepository);
 
-    const api = ApiExpress.create(
-        [
-            createRoute, listRoute, deleteRoute, updateRoute,
-            createAccoutPayRoute, listAccountPayRoute, updateAccountePayRoute, deleteACcountPayRoute,
-            findByIdAccountPayRoute, findByEmailRoute, authRoute, passwordRecoveryRoute
-        ], middleware.create()
-    );
+    const createClientRoute = CreateClientRoute.create(createClientUsecase);
+    const deleteClientRoute = deleteClienteRoute.create(deleteClientUsecase);
+    const updateClientRoute = UpdateClientRoute.create(updateClientUsecase);
+    const getClientByIdRoute = GetClientByIdRoute.create(getClientByIdUsecase);
 
-    const port = process.env.POST || 3000;
+    // Expense
+    const expenseRepository = ExpenseRepository.create(banco);
+
+    const listExpensesUsecase = ListExpensesUsecase.create(expenseRepository);
+    const createExpenseUsecase = CreateExpenseUsecase .create(expenseRepository);
+    const getExpenseByIdUsecase = GetExpenseByIdUsecase.create(expenseRepository);
+    const deleteExpenseUsecase = DeleteExpenseUsecase.create(expenseRepository);
+    const updateExpenseUsecase = UpdateExpenseUsecase.create(expenseRepository);
+
+    const listExpensesRoute = ListExpensesRoute.create(listExpensesUsecase);
+    const createExpenseRoute = CreateExpenseRoute.create(createExpenseUsecase);
+    const getExpenseByIdRoute = GetExpenseByIdRoute.create(getExpenseByIdUsecase);
+    const deleteExpenseRoute = DeleteExpenseRoute.create(deleteExpenseUsecase);
+    const updateExpenseRoute = UpdateExpenseRoute.create(updateExpenseUsecase);
+
+    // Category
+    const categoryRepository = CategoryRepository.create(banco);
+
+    const createCategoryUsecase = CreateCategoryUsecase.create(categoryRepository);
+    const deleteCategoryUsecase = DeleteCategoryUsecase.create(categoryRepository);
+    const listCategoryUsecase = ListCategoryUsecase.create(categoryRepository);
+
+    const createCategoryRoute = CreateCategoryRoute.create(createCategoryUsecase);
+    const deleteCategoryRoute = DeleteCategoryRoute.create(deleteCategoryUsecase);
+    const listCategoryRoute = ListCategoryRoute.create(listCategoryUsecase);
+
+    // Reset Password
+    const emailService = EmailService.create();
+
+    const resetPasswordUsecase = ResetPasswordUsecase.create(aRepository, await emailService);
+
+    const resetPasswordRoute = ResetPasswordRoute.create(resetPasswordUsecase);
+    
+
+    const api = ApiExpress.create([
+        authRoute,
+        createUserRoute,
+        deleteUserRoute,
+        getUserByIdRoute,
+        updateUserRoute,
+        createClientRoute,
+        deleteClientRoute,
+        updateClientRoute,
+        getClientByIdRoute,
+        listExpensesRoute,
+        createExpenseRoute,
+        getExpenseByIdRoute,
+        deleteExpenseRoute,
+        updateExpenseRoute,
+        createCategoryRoute,
+        deleteCategoryRoute,
+        listCategoryRoute,
+        resetPasswordRoute
+    ], middleware);
+
+    const port = env.PORT || 3000;
     api.start(port);
 }
 

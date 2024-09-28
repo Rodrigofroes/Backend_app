@@ -12,15 +12,15 @@ Desenvolvimento utilizando SOLID + Clean Architecture:
 
 Divisão das tabelas: 
 -- Gabriel --
-- [x] Usuários 
+- [ ] Tipo de Despesa
 - [ ] Tipo de Receita
-- [ ] Conta a Receber
-- [ ] Crédito
+- [ ] Forma Pagamento
 - [ ] Movimentar Caixa
+- [ ] Fluxo de Caixa
 
 -- Rodrigo -- 
-- [ ] Tipo de Despesa
-- [x] Conta a Pagar
-- [ ] Debíto
-- [ ] Forma Pagamento
-- [ ] Fluxo de Caixa
+- [x] Usuários 
+- [x] Cliente
+- [ ] Conta a Receber
+- [ ] Despesa
+- [ ] Tipo despesa
