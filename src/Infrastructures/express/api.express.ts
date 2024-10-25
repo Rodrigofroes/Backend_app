@@ -3,7 +3,6 @@ import express, { Express } from "express";
 import { Route } from "./routes/route";
 import cors from "cors";
 import { config } from "dotenv";
-import cors from "cors";
 config();
 
 import { AuthMiddleware } from "./middlewares/authMiddleware";
