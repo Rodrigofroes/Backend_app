@@ -25,24 +25,8 @@ export class ListExpensesRoute implements Route {
  *               type: array
  *       404:
  *         description: Nenhuma despesa encontrada
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: Despesas não encontradas
  *       500:
  *         description: Erro interno do servidor
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: Mensagem de erro detalhada
  */
 
     public static create(ListExpensesService: ListExpensesUsecase) {
@@ -81,6 +65,6 @@ export class ListExpensesRoute implements Route {
     }
 
     isProtected(): boolean {
-        return false;
+        return true;
     }
 }

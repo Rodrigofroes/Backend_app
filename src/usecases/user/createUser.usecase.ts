@@ -1,7 +1,6 @@
 import { User } from "../../domains/user/entity/user.entity";
 import { UserGateway } from "../../domains/user/gateway/user.gateway";
 import { Usecase } from "../usecase";
-import bcrypt from 'bcryptjs';
 
 export type CreateUserInputDto = {
     name: string,
@@ -9,7 +8,7 @@ export type CreateUserInputDto = {
     password: string
 }
 
-export type CreateUserOutputDto = void;
+export type CreateUserOutputDto = void | null;
 
 export class CreateUserUsecase implements Usecase<CreateUserInputDto, CreateUserOutputDto>{
     private constructor(
@@ -35,9 +34,9 @@ export class CreateUserUsecase implements Usecase<CreateUserInputDto, CreateUser
             input.password
         );
         
-        await this.userGateway.createUser(await user);
+        let consulta = await this.userGateway.createUser(await user);
 
-        return;
+        return consulta;
     }
 
     private validadeInput(input: CreateUserInputDto){

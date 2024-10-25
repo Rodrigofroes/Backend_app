@@ -6,7 +6,11 @@ export type GetUserByEmailInputDto = {
     email: string;
 }
 
-export type GetUserByEmailOutputDto = User | null;
+export type GetUserByEmailOutputDto = {
+    id: string,
+    name: string,
+    email: string
+};
 
 export class GetUserByEmailUsecase implements Usecase<GetUserByEmailInputDto, GetUserByEmailOutputDto> {
     private constructor(
@@ -22,16 +26,24 @@ export class GetUserByEmailUsecase implements Usecase<GetUserByEmailInputDto, Ge
 
         const user = await this.userGateway.getUserByEmail(input.email);
 
-        if(!user){
+        if (!user) {
             throw new Error("Usuário não encontrado");
         }
 
-        return user;
+        return this.toMap(user);
     }
 
     private validadeInput(input: GetUserByEmailInputDto) {
         if (!input.email) {
             throw new Error("Parâmetros inválidos");
         }
+    }
+
+    private toMap(user: User): GetUserByEmailOutputDto {  
+        return {
+            id: user.id,
+            name: user.name,
+            email: user.email
+        };
     }
 }

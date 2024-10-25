@@ -28,42 +28,12 @@ export class DeleteCategoryRoute implements Route {
  *     responses:
  *       200:
  *         description: Categoria deletada com sucesso
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               example:
- *                 message: "Categoria deletada com sucesso"
  *       400:
  *         description: Parâmetros inválidos
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Parâmetros inválidos"
  *       404:
  *         description: Categoria não encontrada
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Categoria não encontrada"
  *       500:
  *         description: Erro interno do servidor
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Mensagem de erro detalhada"
  */
 
     public static create(deleteCategoryService: DeleteCategoryUsecase) {
@@ -81,11 +51,10 @@ export class DeleteCategoryRoute implements Route {
                 if (id) {
                     let consulta = await this.deleteCategoryService.execute({ id });
                     if (consulta) {
-                        res.status(200).send({ message: "Categoria deletada com sucesso" });
+                        res.status(201).send({ message: "Categoria deletada com sucesso" });
                     } else {
                         res.status(404).send({ message: "Categoria não encontrada" });
                     }
-
                 }else {
                     res.status(400).send({ message: "Parâmetros inválidos" });
                 }

@@ -8,7 +8,6 @@ export type UpdateClientInputDto = {
     cpf: string;
     address: string;
     phone: string;
-    userId: string;
 }
 
 export type UpdateClientOutputDto = void;
@@ -36,7 +35,7 @@ export class UpdateClientUsecase implements Usecase<UpdateClientInputDto, Update
             cpf: input.cpf,
             address: input.address,
             phone: input.phone,
-            userId: input.userId
+            userId: client.userId
         });
 
         await this.clientGateway.updateClient(updatedClient);
@@ -44,7 +43,7 @@ export class UpdateClientUsecase implements Usecase<UpdateClientInputDto, Update
     }
 
     private validateInput(input: UpdateClientInputDto){
-        if(!input.id || !input.name || !input.cpf || !input.address || !input.phone || !input.userId){
+        if(!input.id || !input.name || !input.cpf || !input.address || !input.phone){
             throw new Error("Parâmetros inválidos");
         }
     }

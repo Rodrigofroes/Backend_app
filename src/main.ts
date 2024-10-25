@@ -43,6 +43,8 @@ import { DeleteExpenseUsecase } from "./usecases/expense/deleteExpense.usecase";
 import { DeleteExpenseRoute } from "./Infrastructures/express/routes/expense/deleteExpense.express.route.";
 import { UpdateExpenseUsecase } from "./usecases/expense/updateExpense.usecase";
 import { UpdateExpenseRoute } from "./Infrastructures/express/routes/expense/updateExpense.express.route";
+import { GetClientsUsecase } from "./usecases/client/getClients.usecase";
+import { GetClientsRoute } from "./Infrastructures/express/routes/client/getclients.express.route";
 
 async function main(){
     const middleware = new AuthMiddleware();
@@ -73,11 +75,13 @@ async function main(){
     const deleteClientUsecase = DeleteClientUsecase.create(clientRepository);
     const updateClientUsecase = UpdateClientUsecase.create(clientRepository);
     const getClientByIdUsecase = GetClientByIdUsecase.create(clientRepository);
+    const getClientsUsecase = GetClientsUsecase.create(clientRepository);
 
     const createClientRoute = CreateClientRoute.create(createClientUsecase);
     const deleteClientRoute = deleteClienteRoute.create(deleteClientUsecase);
     const updateClientRoute = UpdateClientRoute.create(updateClientUsecase);
     const getClientByIdRoute = GetClientByIdRoute.create(getClientByIdUsecase);
+    const getClientsRoute = GetClientsRoute.create(getClientsUsecase);
 
     // Expense
     const expenseRepository = ExpenseRepository.create(banco);
@@ -119,6 +123,7 @@ async function main(){
         deleteUserRoute,
         getUserByIdRoute,
         updateUserRoute,
+        getClientsRoute,
         createClientRoute,
         deleteClientRoute,
         updateClientRoute,

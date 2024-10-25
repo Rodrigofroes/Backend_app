@@ -5,7 +5,7 @@ export type DeleteUserInputDto = {
     id: string;
 }
 
-export type DeleteUserOutputDto = void | null;
+export type DeleteUserOutputDto = boolean;
 
 export class DeleteUserUsecase implements Usecase<DeleteUserInputDto, DeleteUserOutputDto>{
     private constructor(
@@ -19,13 +19,15 @@ export class DeleteUserUsecase implements Usecase<DeleteUserInputDto, DeleteUser
     public async execute(input: DeleteUserInputDto): Promise<DeleteUserOutputDto>{
         this.validadeInput(input);
 
-        const user = await this.userGateway.deleteUser(input.id);
+        const user = await this.userGateway.getUserById(input.id);
 
         if(!user){
             throw new Error("Usuário não encontrado");
         }
         
-        return;
+       let consulta = await this.userGateway.deleteUser(input.id);
+
+       return consulta;
     }
 
     private validadeInput(input: DeleteUserInputDto){

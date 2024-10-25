@@ -82,12 +82,18 @@ export class CreateUserRoute implements Route {
             try {
                 let { name, email, password } = req.body;
                 if (name && email && password) {
-                    await this.createUserService.execute({ name, email, password });
-                    res.status(201).json({
-                        message: "Usuário criado com sucesso"
-                    });
+                    let consulta = await this.createUserService.execute({ name, email, password });
+                    if(consulta){
+                        res.status(201).json({
+                            message: "Usuário criado com sucesso"
+                        });
+                    }else {
+                        res.status(404).json({
+                            message: "Erro ao criar usuário"
+                        });
+                    }
                 } else {
-                    res.status(400).json({
+                    res.status(404).json({
                         message: "Parâmetros inválidos"
                     });
                 }
@@ -108,6 +114,6 @@ export class CreateUserRoute implements Route {
     }
 
     public isProtected(): boolean {
-        return false;
+        return true;
     }
 }
