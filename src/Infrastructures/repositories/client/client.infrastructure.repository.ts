@@ -18,7 +18,7 @@ export class ClientRepository implements ClientGateway {
     }
 
     public async getClientByCpf(cpf: string): Promise<any> {
-        let sql = "SELECT * FROM tb_client WHERE client_cpf = $1";
+        let sql = "SELECT * FROM tb_client WHERE client_cpf = $1 AND client_active = true";
         let valores = [cpf];
         let resultado = await this.banco.ExecutaComando(sql, valores);
 
@@ -42,7 +42,7 @@ export class ClientRepository implements ClientGateway {
     }
 
     public async deleteClient(id: string): Promise<Number | null> {
-        let sql = "DELETE FROM tb_client WHERE client_id = $1";
+        let sql = "UPDATE tb_client SET client_active = false WHERE client_id = $1";
         let valores = [id];
 
         let resultado = await this.banco.ExecutaComandoNoQuery(sql, valores);
@@ -50,7 +50,7 @@ export class ClientRepository implements ClientGateway {
     }
 
     public async getClients(): Promise<any[]> {
-        let sql = "SELECT * FROM tb_client";
+        let sql = "SELECT * FROM tb_client WHERE client_active = true";
         let resultado = await this.banco.ExecutaComando(sql, []);
 
         return resultado.map(this.toMAP);
