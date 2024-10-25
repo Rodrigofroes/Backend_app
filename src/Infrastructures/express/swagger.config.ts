@@ -9,7 +9,7 @@ const swaggerDefinition = {
     },
     servers: [
         {
-            url: 'http://192.168.200.73:3000',
+            url: 'http://localhost:3000',
         },
     ],
     components: {

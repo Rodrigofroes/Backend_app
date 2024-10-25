@@ -1,6 +1,7 @@
 import { Api } from "../api";
 import express, { Express } from "express";
 import { Route } from "./routes/route";
+import cors from "cors";
 import { config } from "dotenv";
 config();
 
@@ -16,6 +17,7 @@ export class ApiExpress implements Api {
         private readonly middlewareService: AuthMiddleware
     ) {
         this.app = express();
+        this.app.use(cors());
         this.app.use(express.json());
         this.app.use(express.urlencoded({ extended: true }));
 

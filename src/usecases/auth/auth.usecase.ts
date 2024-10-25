@@ -1,4 +1,3 @@
-import { User } from "@prisma/client";
 import { UserGateway } from "../../domains/user/gateway/user.gateway";
 import { AuthMiddleware } from "../../Infrastructures/express/middlewares/authMiddleware";
 import { Usecase } from "../usecase";
