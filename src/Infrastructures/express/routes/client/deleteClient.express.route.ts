@@ -29,44 +29,12 @@ export class deleteClienteRoute implements Route {
  *     responses:
  *       200:
  *         description: Cliente deletado com sucesso
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Cliente deletado com sucesso"
  *       400:
  *         description: Parâmetros inválidos
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Parâmetros inválidos"
  *       404:
  *         description: Cliente não encontrado
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Cliente não encontrado"
  *       500:
  *         description: Erro interno no servidor
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Erro interno no servidor"
  */
 
 

@@ -1,4 +1,3 @@
-import { User } from "@prisma/client";
 import { UserGateway } from "../../domains/user/gateway/user.gateway";
 import { AuthMiddleware } from "../../Infrastructures/express/middlewares/authMiddleware";
 import { Usecase } from "../usecase";
@@ -27,7 +26,7 @@ export class AuthUsecase implements Usecase<AuthInputDto, AuthOutputDto>{
         const aUser = await this.useGateway.getUserByEmail(input.email);
 
         if(!aUser){
-            throw new Error("Usuário não encontrado");
+            throw new Error("Usuário e/ou senha inválidos");
         }
 
         const isPasswordValid = await bcrypt.compare(input.password, aUser.password);
@@ -36,8 +35,9 @@ export class AuthUsecase implements Usecase<AuthInputDto, AuthOutputDto>{
             throw new Error("Usuário e/ou senha inválidos");
         }
 
-        return this.authService.gerarToken(aUser.id, aUser.name, aUser.email);
-
+        let consulta = this.authService.gerarToken(aUser.id, aUser.name, aUser.email);
+        
+        return consulta;
     }
 
     private validadeInput(input: AuthInputDto){

@@ -1,4 +1,3 @@
-import { User } from "../../domains/user/entity/user.entity";
 import { UserGateway } from "../../domains/user/gateway/user.gateway";
 import { Usecase } from "../usecase";
 
@@ -6,7 +5,11 @@ export type GetUserByIdInputDto = {
     id: string;
 }
 
-export type GetUserByIdOutputDto = User | null;
+export type GetUserByIdOutputDto = {
+    id: string,
+    name: string,
+    email: string
+};
 
 export class GetUserByIdUsecase implements Usecase<GetUserByIdInputDto, GetUserByIdOutputDto>{
     private constructor(
@@ -26,12 +29,23 @@ export class GetUserByIdUsecase implements Usecase<GetUserByIdInputDto, GetUserB
             throw new Error("Usuário não encontrado");
         }
 
-        return user;
+        return this.toMap(user);
     }
 
     private validadeInput(input: GetUserByIdInputDto){
         if(!input.id){
             throw new Error("Parâmetros inválidos");
         }
+    }
+
+    private toMap(user: any): GetUserByIdOutputDto {  
+       let resultado = user.map((x: any) => {
+            return {
+                id: x.user_id,
+                name: x.user_name,
+                email: x.user_email
+            };
+        });
+        return resultado;
     }
 }

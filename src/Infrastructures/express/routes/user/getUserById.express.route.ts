@@ -82,9 +82,9 @@ export class GetUserByIdRoute implements Route {
             try {
                 let { id } = req.params;
                 if (id) {
-                    let user: any = await this.getUserByIdService.execute({ id });
+                    let user = await this.getUserByIdService.execute({ id });
                     if (user) {
-                        res.status(200).json(user);
+                        res.status(201).json(user);
                     } else {
                         res.status(404).json({
                             message: "Usuário não encontrado"
@@ -103,7 +103,6 @@ export class GetUserByIdRoute implements Route {
                 });
             }
         }
-
     }
     
     public getPath(): string {

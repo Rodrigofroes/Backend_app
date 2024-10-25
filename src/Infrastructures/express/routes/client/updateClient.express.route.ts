@@ -11,21 +11,13 @@ export class UpdateClientRoute implements Route {
 
     /**
  * @swagger
- * /client/{id}:
+ * /client:
  *   put:
  *     summary: Atualiza um cliente pelo ID
  *     tags: [Client]
  *     description: Atualiza as informações de um cliente com base no ID fornecido.
  *     security:
  *       - bearerAuth: []
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *         description: ID do cliente a ser atualizado
- *         example: "123abc"
  *     requestBody:
  *       required: true
  *       content:
@@ -33,6 +25,10 @@ export class UpdateClientRoute implements Route {
  *           schema:
  *             type: object
  *             properties:
+ *               id:
+ *                 type: string
+ *                 description: ID do cliente
+ *                 example: "123abc"
  *               name:
  *                 type: string
  *                 description: Nome do cliente
@@ -49,57 +45,21 @@ export class UpdateClientRoute implements Route {
  *                 type: string
  *                 description: Telefone do cliente
  *                 example: "(11) 99999-9999"
- *               userId:
- *                 type: string
- *                 description: ID do usuário associado ao cliente
- *                 example: "abc123"
  *     responses:
  *       200:
  *         description: Cliente atualizado com sucesso
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Cliente atualizado com sucesso"
  *       400:
  *         description: Parâmetros inválidos
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Parâmetros inválidos"
  *       404:
  *         description: Cliente não encontrado
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Cliente não encontrado"
  *       500:
  *         description: Erro interno no servidor
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Erro interno no servidor"
  */
 
 
     public static create(updateClientService: UpdateClientUsecase) {
         return new UpdateClientRoute(
-            '/client/:id',
+            '/client',
             HttpMethod.PUT,
             updateClientService
         );
@@ -108,10 +68,9 @@ export class UpdateClientRoute implements Route {
     public getHandler(): (req: Request, res: Response) => Promise<void> {
         return async (req: Request, res: Response) => {
             try {
-                const { id } = req.params;
-                const { name, cpf, address, phone, userId } = req.body;
-                if (id && name && cpf && address && phone && userId) {
-                    await this.updateClientService.execute({ id, name, cpf, address, phone, userId });
+                const { id, name, cpf, address, phone } = req.body;
+                if (id && name && cpf && address && phone) {
+                    await this.updateClientService.execute({ id, name, cpf, address, phone });
                     res.status(200).json({
                         message: "Cliente atualizado com sucesso"
                     });

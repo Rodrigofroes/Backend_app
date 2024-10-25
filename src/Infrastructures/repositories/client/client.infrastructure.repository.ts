@@ -49,6 +49,13 @@ export class ClientRepository implements ClientGateway {
         return resultado;
     }
 
+    public async getClients(): Promise<any[]> {
+        let sql = "SELECT * FROM tb_client";
+        let resultado = await this.banco.ExecutaComando(sql, []);
+
+        return resultado.map(this.toMAP);
+    }
+
     toMAP(row: any): any {
         if (!row) {
             return null;

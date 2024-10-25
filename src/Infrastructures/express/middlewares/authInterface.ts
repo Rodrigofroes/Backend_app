@@ -1,4 +1,3 @@
-import { User } from "../../../domains/user/entity/user.entity";
 import {Response, Request, NextFunction } from  'express'
 
 export interface AuthInterface {

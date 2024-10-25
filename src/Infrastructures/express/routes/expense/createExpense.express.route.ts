@@ -39,34 +39,10 @@ export class CreateExpenseRoute implements Route {
      *     responses:
      *       201:
      *         description: Despesa criada com sucesso
-     *         content:
-     *           application/json:
-     *             schema:
-     *               type: object
-     *               properties:
-     *                 message:
-     *                   type: string
-     *                   example: Despesa criada com sucesso
      *       400:
      *         description: Parametros inválidos
-     *         content:
-     *           application/json:
-     *             schema:
-     *               type: object
-     *               properties:
-     *                 message:
-     *                   type: string
-     *                   example: Parametros inválidos
      *       500:
      *         description: Erro interno do servidor
-     *         content:
-     *           application/json:
-     *             schema:
-     *               type: object
-     *               properties:
-     *                 message:
-     *                   type: string
-     *                   example: Mensagem de erro detalhada
      */
 
     public static create(createExpenseService: CreateExpenseUsecase){
@@ -86,7 +62,7 @@ export class CreateExpenseRoute implements Route {
                     if(consulta){
                         res.status(201).send({ message: "Despesa criada com sucesso" });
                     } else {
-                        res.status(500).send({ message: "Erro ao criar despesa" });
+                        res.status(400).send({ message: "Erro ao criar despesa" });
                     }
                 } else {
                     res.status(400).send({ message: "Parametros inválidos" });
@@ -106,6 +82,6 @@ export class CreateExpenseRoute implements Route {
     }
 
     isProtected(): boolean {
-        return false;
+        return true;
     }
 }

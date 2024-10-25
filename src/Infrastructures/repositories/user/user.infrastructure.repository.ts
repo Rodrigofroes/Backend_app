@@ -15,14 +15,15 @@ export class UserRepository implements UserGateway {
         let sql = "INSERT INTO tb_user (user_id, user_name, user_email, user_password ) VALUES ($1, $2, $3, $4)";
         let valores = [User.id, User.name, User.email, User.password];
 
-        await this.banco.ExecutaComandoNoQuery(sql, valores);
+        let resultado = await this.banco.ExecutaComandoNoQuery(sql, valores);
+        return resultado;
     }
 
     public async getUserByEmail(email: string): Promise<User | null> {
         let sql = "SELECT * FROM tb_user WHERE user_email = $1";
         let valores = [email];
-        let resultado = await this.banco.ExecutaComando(sql, valores);
 
+        let resultado = await this.banco.ExecutaComando(sql, valores);
         return this.toMAP(resultado[0]);
     }
 
@@ -30,9 +31,8 @@ export class UserRepository implements UserGateway {
         let sql = "SELECT * FROM tb_user WHERE user_id = $1";
         let valores = [id];
 
-        let result = await this.banco.ExecutaComando(sql, valores);
-
-        return this.toMAP(result[0]);
+        let resultado = await this.banco.ExecutaComando(sql, valores);
+        return resultado;
     }
 
     public async updateUser(User: any): Promise<boolean> {
@@ -40,16 +40,15 @@ export class UserRepository implements UserGateway {
         let valores = [User.name, User.email, User.password, User.id];
 
         let resultado = await this.banco.ExecutaComandoNoQuery(sql, valores);
-
-        return resultado > 0 ? true : false;
+        return resultado.rowCount > 0 ? true : false;
     }
 
-    public async deleteUser(id: string): Promise<Number | null> {
+    public async deleteUser(id: string): Promise<boolean> {
         let sql = "DELETE FROM tb_user WHERE user_id = $1";
         let valores = [id];
 
         let resultado = await this.banco.ExecutaComandoNoQuery(sql, valores);
-        return resultado;
+        return resultado.rowCount > 0 ? true : false;
     }
 
     public async updatePassword(id: string, password: string): Promise<boolean> {
@@ -57,15 +56,11 @@ export class UserRepository implements UserGateway {
         let valores = [password, id];
 
         let resultado = await this.banco.ExecutaComandoNoQuery(sql, valores);
-
         return resultado.rowCount > 0 ? true : false;
     }
 
-    private toMAP(row: any): User | null {
-        if (!row) {
-            return null;
-        }
-
+    toMAP(row: any): User | null {
+        if (!row) return null;
         return User.with({
             id: row.user_id,
             name: row.user_name,

@@ -47,44 +47,12 @@ export class CreateClientRoute implements Route {
      *     responses:
      *       201:
      *         description: Cliente criado com sucesso
-     *         content:
-     *           application/json:
-     *             schema:
-     *               type: object
-     *               properties:
-     *                 message:
-     *                   type: string
-     *                   example: "Cliente criado com sucesso"
      *       400:
      *         description: Parâmetros inválidos
-     *         content:
-     *           application/json:
-     *             schema:
-     *               type: object
-     *               properties:
-     *                 message:
-     *                   type: string
-     *                   example: "Parâmetros inválidos"
      *       500:
      *         description: Erro interno no servidor
-     *         content:
-     *           application/json:
-     *             schema:
-     *               type: object
-     *               properties:
-     *                 message:
-     *                   type: string
-     *                   example: "Erro interno no servidor"
      *       401:
      *         description: Não autorizado
-     *         content:
-     *           application/json:
-     *             schema:
-     *               type: object
-     *               properties:
-     *                 message:
-     *                   type: string
-     *                   example: "Não autorizado"
      */
 
     public static create(clientService: CreateClientUsecase) {

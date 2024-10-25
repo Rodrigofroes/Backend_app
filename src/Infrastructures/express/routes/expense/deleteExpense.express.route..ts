@@ -26,34 +26,10 @@ export class DeleteExpenseRoute implements Route {
      *     responses:
      *       200:
      *         description: Despesa deletada com sucesso
-     *         content:
-     *           application/json:
-     *             schema:
-     *               type: object
-     *               properties:
-     *                 message:
-     *                   type: string
-     *                   example: Despesa deletada com sucesso
      *       404:
      *         description: Despesa não encontrada
-     *         content:
-     *           application/json:
-     *             schema:
-     *               type: object
-     *               properties:
-     *                 message:
-     *                   type: string
-     *                   example: Despesa não encontrada
      *       500:
      *         description: Erro interno do servidor
-     *         content:
-     *           application/json:
-     *             schema:
-     *               type: object
-     *               properties:
-     *                 message:
-     *                   type: string
-     *                   example: Mensagem de erro detalhada
      */
 
     public static create(deleteExpenseService: DeleteExpenseUsecase) {
@@ -101,6 +77,6 @@ export class DeleteExpenseRoute implements Route {
     }
 
     isProtected(): boolean {
-        return false;
+        return true;
     }
 }

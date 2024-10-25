@@ -9,7 +9,7 @@ export type UpdateUserInputDto = {
     password: string;
 }
 
-export type UpdateUserOutputDto = void;
+export type UpdateUserOutputDto = boolean;
 
 export class UpdateUserUsecase implements Usecase<UpdateUserInputDto, UpdateUserOutputDto> {
     private constructor(
@@ -36,9 +36,9 @@ export class UpdateUserUsecase implements Usecase<UpdateUserInputDto, UpdateUser
             password: await User.encryptPassword(input.password)
         })
 
-        await this.userGateway.updateUser(user);
+        let resultado = await this.userGateway.updateUser(user);
 
-        return;
+        return resultado;
     }
 
     private validadeInput(input: UpdateUserInputDto) {

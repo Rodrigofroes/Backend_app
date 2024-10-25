@@ -32,44 +32,12 @@ export class CreateCategoryRoute implements Route {
  *     responses:
  *       201:
  *         description: Categoria criada com sucesso
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Categoria criada com sucesso"
  *       400:
  *         description: Parâmetros inválidos
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Parâmetros inválidos"
  *       404:
  *         description: Erro ao criar categoria
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Erro ao criar categoria"
  *       500:
  *         description: Erro interno do servidor
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Mensagem de erro detalhada"
  */
 
     public static create(createCategoryService: CreateCategoryUsecase) {

@@ -72,7 +72,7 @@ export class DeleteUserRoute implements Route {
                 if (id) {
                     let user = await this.deleteUserService.execute({ id });
                     if (user) {
-                        res.status(200).json({
+                        res.status(201).json({
                             message: "Usuário deletado com sucesso"
                         });
                     } else {

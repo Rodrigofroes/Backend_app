@@ -50,6 +50,7 @@ export class AuthRoute implements Route {
                     let resultado = await this.authService.execute({ email, password });
                     if (resultado) {
                         res.status(200).json({
+                            message: "Autenticado com sucesso",
                             token: resultado
                         });
                     } else {

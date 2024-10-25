@@ -51,34 +51,10 @@ export class GetExpenseByIdRoute implements Route {
      *                       example: Alimentação
      *       404:
      *         description: Despesa não encontrada
-     *         content:
-     *           application/json:
-     *             schema:
-     *               type: object
-     *               properties:
-     *                 message:
-     *                   type: string
-     *                   example: Despesa não encontrada
      *       400:
      *         description: Parametros inválidos
-     *         content:
-     *           application/json:
-     *             schema:
-     *               type: object
-     *               properties:
-     *                 message:
-     *                   type: string
-     *                   example: Parametros inválidos
      *       500:
      *         description: Erro interno
-     *         content:
-     *           application/json:
-     *             schema:
-     *               type: object
-     *               properties:
-     *                 message:
-     *                   type: string
-     *                   example: Erro interno
      */
 
     public static create(getExpenseByIdService: GetExpenseByIdUsecase) {
@@ -119,7 +95,7 @@ export class GetExpenseByIdRoute implements Route {
     }
 
     isProtected(): boolean {
-        return false;
+        return true;
     }
 
 

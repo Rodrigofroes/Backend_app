@@ -11,18 +11,11 @@ export class UpdateExpenseRoute implements Route {
 
     /**
      * @swagger
-     * /expense/{id}:
+     * /expense:
      *   put:
      *     summary: Atualiza uma despesa pelo ID
      *     description: Atualiza uma despesa pelo ID.
      *     tags: [Expense]
-     *     parameters:
-     *       - in: path
-     *         name: id
-     *         required: true
-     *         description: ID da despesa
-     *         schema:
-     *           type: string
      *     requestBody:
      *       required: true
      *       content:
@@ -30,6 +23,10 @@ export class UpdateExpenseRoute implements Route {
      *           schema:
      *             type: object
      *             properties:
+     *               id:
+     *                 type: string
+     *                 description: ID da despesa
+     *                 example: "123abc"
      *               description:
      *                 type: string
      *                 example: Descrição da despesa
@@ -45,34 +42,10 @@ export class UpdateExpenseRoute implements Route {
      *     responses:
      *       200:
      *         description: Despesa atualizada com sucesso
-     *         content:
-     *           application/json:
-     *             schema:
-     *               type: object
-     *               properties:
-     *                 message:
-     *                   type: string
-     *                   example: Despesa atualizada com sucesso
      *       404:
      *         description: Despesa não encontrada
-     *         content:
-     *           application/json:
-     *             schema:
-     *               type: object
-     *               properties:
-     *                 message:
-     *                   type: string
-     *                   example: Despesa não encontrada
      *       500:
      *         description: Erro interno do servidor
-     *         content:
-     *           application/json:
-     *             schema:
-     *               type: object
-     *               properties:
-     *                 message:
-     *                   type: string
-     *                   example: Mensagem de erro detalhada
      */
 
     public static create(updateExpenseService: UpdateExpenseUsecase){
@@ -86,8 +59,7 @@ export class UpdateExpenseRoute implements Route {
     getHandler(): (req: Request, res: Response) => Promise<void> {
         return async (req: Request, res: Response) => {
             try {
-                const { id } = req.params;
-                const { description, value, date, category } = req.body;
+                const {id,  description, value, date, category } = req.body;
                 if (id && description && value && date && category) {
                     let expense: any = await this.updateExpenseService.execute({ id, description, value, date, category });
                     if (expense) {
@@ -117,6 +89,6 @@ export class UpdateExpenseRoute implements Route {
     }
 
     isProtected(): boolean {
-        return false;
+        return true;
     }
 }
