@@ -1,1 +1,14 @@
+<<<<<<< HEAD
 node_modules
+=======
+# Env 
+.env 
+
+# Node_modules
+node_modules
+
+# Prisma
+/prisma/migrations
+/prisma/database.db
+
+>>>>>>> dev
